@@ -82,7 +82,7 @@ import {
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('dating')
-const columns = ["送检编号", "样品来源", "承接实验室", "测年方法", "送检日期", "校正年代", "报告收到日", "送检状态"]
+const columns = ["送检编号", "样品来源", "种属", "承接实验室", "测年方法", "送检日期", "校正年代", "报告收到日", "送检状态"]
 const actions = ["提交送检", "登记报告", "作废送检"]
 const statuses = ["待送检", "已送检", "已出报告", "已作废"]
 const stats = [{"label": "待送检批次", "value": 0}, {"label": "已送检批次", "value": 0}, {"label": "本月出报告数", "value": 0}]

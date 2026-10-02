@@ -29,6 +29,10 @@ export function listEntries(key: string, filters: Record<string, string> = {}): 
 }
 
 export function runAction(key: string, id: number, action: string): ActionResult {
+  // 骨骼标本有归属与裁决规则，不能走无身份的通用流转，必须由 bone-service 鉴权办理。
+  if (key === 'bone') {
+    return { ok: false, message: '骨骼标本的动作需要校验归属，请在骨骼标本页按当前身份办理' }
+  }
   const meta = moduleMeta(key)
   const target = meta.actionTargets[action]
   if (!target) {

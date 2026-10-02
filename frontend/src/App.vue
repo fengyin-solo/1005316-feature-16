@@ -11,7 +11,17 @@
     <main class="app-main">
       <header class="app-head">
         <span class="head-desc">面向探方发掘进度、地层堆积编录、遗迹单位登记、出土物整理与检测送样的一体化田野考古记录工作台。</span>
-        <span class="head-user">当前值班：{{ store.operator }} · {{ store.shiftLabel }}</span>
+        <span class="head-user">
+          <label class="identity-switch">
+            当前身份：
+            <select :value="identityValue" @change="switchIdentity(($event.target as HTMLSelectElement).value)">
+              <option v-for="item in identityOptions" :key="item.value" :value="item.value">
+                {{ item.label }}
+              </option>
+            </select>
+          </label>
+          <span class="shift-text">{{ store.shiftLabel }}</span>
+        </span>
       </header>
       <RouterView />
     </main>
@@ -19,9 +29,31 @@
 </template>
 
 <script setup lang="ts">
-import { useSessionStore } from '@/stores/session'
+import { computed } from 'vue'
+
+import { IDENTITIES, identityLabel, useSessionStore, type Identity } from '@/stores/session'
 
 const store = useSessionStore()
+
+const identityOptions = IDENTITIES.map((item, index) => ({
+  value: String(index),
+  label: identityLabel(item),
+}))
+
+const identityValue = computed(() =>
+  String(IDENTITIES.findIndex((item) => identityKey(item) === identityKey(store.identity))),
+)
+
+function identityKey(item: Identity): string {
+  return item.kind === 'room' ? `room:${item.name}` : `identifier:${item.unit}:${item.name}`
+}
+
+function switchIdentity(value: string) {
+  const identity = IDENTITIES[Number(value)]
+  if (identity) {
+    store.setIdentity(identity)
+  }
+}
 
 const navItems = [{ label: "运营概览", path: "/" }, { label: "探方登记", path: "/trench" }, { label: "地层堆积", path: "/stratum" }, { label: "遗迹单位", path: "/feature" }, { label: "出土物登记", path: "/find" }, { label: "陶片拼对", path: "/sherd" }, { label: "骨骼标本", path: "/bone" }, { label: "浮选样品", path: "/flotation" }, { label: "测年送检", path: "/dating" }, { label: "测绘控制点", path: "/survey" }, { label: "影像资料", path: "/photo" }, { label: "发掘日记", path: "/diary" }, { label: "用工派工", path: "/labor" }, { label: "工具领用", path: "/tool" }, { label: "安全巡查", path: "/safety" }, { label: "样品封装", path: "/packing" }, { label: "标本修复", path: "/conserve" }, { label: "简报校核", path: "/briefing" }, { label: "探方验收", path: "/acceptance" }]
 </script>
