@@ -7,6 +7,7 @@ const Feature = () => import('@/views/feature/index.vue')
 const Find = () => import('@/views/find/index.vue')
 const Sherd = () => import('@/views/sherd/index.vue')
 const Bone = () => import('@/views/bone/index.vue')
+const BoneDetail = () => import('@/views/bone/detail.vue')
 const Flotation = () => import('@/views/flotation/index.vue')
 const Dating = () => import('@/views/dating/index.vue')
 const Survey = () => import('@/views/survey/index.vue')
@@ -30,6 +31,7 @@ const router = createRouter({
     { path: '/find', name: 'find', component: Find },
     { path: '/sherd', name: 'sherd', component: Sherd },
     { path: '/bone', name: 'bone', component: Bone },
+    { path: '/bone/:id', name: 'bone-detail', component: BoneDetail },
     { path: '/flotation', name: 'flotation', component: Flotation },
     { path: '/dating', name: 'dating', component: Dating },
     { path: '/survey', name: 'survey', component: Survey },
